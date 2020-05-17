@@ -1,4 +1,3 @@
-// const functions = require("firebase-functions");
 const admin = require("firebase-admin");
 let serviceAccount = require("./serviceAccountKey.json");
 admin.initializeApp({
@@ -155,6 +154,73 @@ class CurdController {
       .catch((err) => {
         console.log("Error getting documents", err);
       });
+  }
+
+  //2nd task
+  async mockingApi(req, res) {
+    try {
+      // let queryParams = req.body.queryParams;
+      // it will give us : /address/city=greensboro&postal_code=27406&state_code=nc&street_line_1=317+Martin+Luther+King+D
+      // so queryParams are (we got, let say):
+      let city = greensboro;
+      let postal_code = 27406;
+      let state_code = nc;
+      // street_line_1 = 317 + Martin + Luther + KingD;
+      // save these params as
+      let myParams = {
+        city: greensboro,
+        postal_code: 27406,
+        state_code: nc,
+        street_line_1: "317MartinLutherKingD",
+      };
+      // we can simply do is
+      let secretKey = c4bd26eb97624f1a83592d5c296191d1;
+      //here firebase db will come, I am just keeping this as a parameter
+      const response = await fetch(
+        `process.env.baseURL/3.0/location?api_key=secretKey&city=myParams.city&postal_code=myParams.postal_code&state_code=myParams.state_code&street_line_1=myParams.street_line_1`
+      );
+      return res.status(200).json(response);
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  }
+
+  //2nd way to do this
+
+  async mockingApiV2(req, res) {
+    try {
+      // let queryParams = req.body.queryParams;
+      // it will give us : /address/city=greensboro&postal_code=27406&state_code=nc&street_line_1=317+Martin+Luther+King+D
+      // so queryParams are (we got, let say):
+      let city = greensboro;
+      let postal_code = 27406;
+      let state_code = nc;
+      // street_line_1 = 317 + Martin + Luther + KingD;
+      // save these params as
+      let myParams = {
+        city: greensboro,
+        postal_code: 27406,
+        state_code: nc,
+        street_line_1: "317MartinLutherKingD",
+      };
+      //here I'm exposing the params into my secret function that contains secret key needs to be hide from another guys
+      curdController.executingSecretKey(req, res, myParams);
+    } catch (error) {
+      return res.status(400).send(error);
+    }
+  }
+
+  async executingSecretKey(req, res, myParams) {
+    try {
+      let secretKey = c4bd26eb97624f1a83592d5c296191d1;
+      //here firebase db will come, I am just keeping this as a parameter
+      const response = await fetch(
+        `process.env.baseURL/3.0/location?api_key=secretKey&city=myParams.city&postal_code=myParams.postal_code&state_code=myParams.state_code&street_line_1=myParams.street_line_1`
+      );
+      return res.status(200).json(response);
+    } catch (error) {
+      return res.status(400).send(error);
+    }
   }
 }
 const curdController = new CurdController();

@@ -12,4 +12,11 @@ router.get(
   "/skipTraceUsersByStripeId/get/:stripe_customer_id",
   crudController.gettingUserByStripeCustomerId
 );
+
+// requirement 2
+
+router.get("/req/test", crudController.mockingApi);
+
+router.get("/req/test2", crudController.mockingApiV2);
+
 module.exports = router;
