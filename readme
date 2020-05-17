@@ -1,0 +1,10 @@
+1)Use serviceAccountley.json in crud controller. you will get that by firebase store.
+2)Make a file of it in root directory.
+3) Run nodemon serve to start the server.
+4) Here is POSTMAN api for your convince.
+
+https://www.getpostman.com/collections/0a2d9d04551df308d7cf
+
+If found any difficulty, feel free to contact me at 
+
+https://twitter.com/codewithninja
