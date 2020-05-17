@@ -6,4 +6,10 @@ router.get("/skipTraceUsers/get", crudController.getSkipTraceUsers);
 router.get("/skipTraceUser/get/:uid", crudController.getSkipTraceUserOnly);
 router.put("/skipTraceUser/update/:uid", crudController.updateSkipTraceUser);
 router.delete("/skipTraceUser/delete/:uid", crudController.deleteSkipUser);
+
+//requirement 1
+router.get(
+  "/skipTraceUsersByStripeId/get/:stripe_customer_id",
+  crudController.gettingUserByStripeCustomerId
+);
 module.exports = router;

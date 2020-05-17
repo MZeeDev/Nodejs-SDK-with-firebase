@@ -117,7 +117,6 @@ class CurdController {
   //delete the entire document
   async deleteSkipUser(req, res) {
     let uid = req.params.uid;
-    console.log(uid);
     db.collection("skiptrace_users")
       .doc(uid)
       .get()
@@ -132,6 +131,29 @@ class CurdController {
       .catch((err) => {
         console.log("Error getting document/Not Found", err);
         return false;
+      });
+  }
+
+  //getting the data by passing stripe_customer_id
+
+  gettingUserByStripeCustomerId(req, res) {
+    let stripe_customer_id = parseInt(req.params.stripe_customer_id);
+    let skipTraceUsersRef = db.collection("skiptrace_users");
+    skipTraceUsersRef
+      .where("stripe_customer_id", "==", stripe_customer_id)
+      .get()
+      .then((snapshot) => {
+        if (snapshot.empty) {
+          console.log("No matching documents.");
+          return;
+        }
+        snapshot.forEach((doc) => {
+          // console.log(doc.id, "=>", doc.data());
+          return res.status(200).json(doc.data());
+        });
+      })
+      .catch((err) => {
+        console.log("Error getting documents", err);
       });
   }
 }
